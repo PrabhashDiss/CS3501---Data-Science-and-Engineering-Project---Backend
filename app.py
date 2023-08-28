@@ -13,7 +13,7 @@ def hello_world():
 @app.route("/<string:username>/account")
 def get_accounts(username):
     # Get accounts from the Firebase Realtime Database
-    return firebase.get('/{username}/account', None)
+    return firebase.get(f'/{username}/account', None)
 
 if __name__ == "__main__":
     app.run()
