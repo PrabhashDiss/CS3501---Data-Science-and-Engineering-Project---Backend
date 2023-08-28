@@ -15,7 +15,7 @@ def get_customer_password(username, password):
     # Get customer password from the Firebase Realtime Database
     stored_password = firebase.get(f'/{username}/{password}', None)
     
-    if stored_password is not None:
+    if stored_password is not None and stored_password == password:
         return {"status": "success"}
     else:
         return {"status": "failure"}
