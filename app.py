@@ -10,6 +10,19 @@ firebase = firebase.FirebaseApplication(
 def hello_world():
     return 'Hello, World!'
 
+@app.route("/<string:username>/password", methods=["POST"])
+def get_customer_password(username):
+    data = request.json
+    password = data.get("password")
+
+    # Get customer password from the Firebase Realtime Database
+    password = firebase.get(f'/{username}/password', None)
+    
+    if stored_password is not None and stored_password == password:
+        return {"status": "success"}
+    else:
+        return {"status": "failure"}
+
 @app.route("/<string:username>/account")
 def get_accounts(username):
     # Get accounts from the Firebase Realtime Database
