@@ -10,10 +10,10 @@ firebase = firebase.FirebaseApplication(
 def hello_world():
     return 'Hello, World!'
 
-@app.route("/account")
-def get_accounts():
+@app.route("/<string:username>/account")
+def get_accounts(username):
     # Get accounts from the Firebase Realtime Database
-    return firebase.get('/customer/account', None)
+    return firebase.get('/{username}/account', None)
 
 if __name__ == "__main__":
     app.run()
