@@ -1,5 +1,6 @@
-from flask import Flask
+from flask import Flask, request
 from firebase import firebase
+import random
 app = Flask(__name__)
 
 # Initialize Firebase
@@ -24,6 +25,27 @@ def get_customer_password(username, password):
 def get_accounts(username):
     # Get accounts from the Firebase Realtime Database
     return firebase.get(f'/{username}/account', None)
+
+@app.route("/<string:username>/apply_loan", methods=['POST'])
+def apply_loan(username):
+    # Assuming you receive loan type in the request JSON
+    data = request.get_json()
+    loan_type = data.get('loan_type')
+
+    # Generate a random 3-digit number for the loan status
+    loan_number = random.randint(100, 999)
+
+    # Add loan type and status to the Firebase Realtime Database
+    loan_data = {
+        loan_number: {
+            'loan_type': loan_type,
+            'loan_status': 0
+        }
+    }
+
+    firebase.patch(f'/{username}/loan', loan_data)
+
+    return {"status": "success"}
 
 if __name__ == "__main__":
     app.run()
