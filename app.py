@@ -1,6 +1,7 @@
 from flask import Flask, request
 from firebase import firebase
 import random
+import bcrypt  # Import the bcrypt library
 app = Flask(__name__)
 
 # Initialize Firebase
@@ -14,9 +15,9 @@ def hello_world():
 @app.route("/<string:username>/<string:password>")
 def get_customer_password(username, password):
     # Get customer password from the Firebase Realtime Database
-    stored_password = firebase.get(f'/{username}/password', None)
+    stored_password_hash = firebase.get(f'/{username}/password', None)
     
-    if stored_password is not None and stored_password == password:
+    if stored_password_hash is not None and bcrypt.checkpw(password.encode('utf-8'), stored_password_hash):
         return {"status": "success"}
     else:
         return {"status": "failure"}
