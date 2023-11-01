@@ -17,7 +17,7 @@ def get_customer_password(username, password):
     # Get customer password from the Firebase Realtime Database
     stored_password_hash = firebase.get(f'/{username}/password', None)
     
-    if stored_password_hash is not None and bcrypt.checkpw(password.encode('utf-8'), stored_password_hash):
+    if stored_password_hash is not None and bcrypt.checkpw(password.encode('utf-8'), stored_password_hash.encode('utf-8')):
         return {"status": "success"}
     else:
         return {"status": "failure"}
