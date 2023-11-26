@@ -15,7 +15,7 @@ def hello_world():
 @app.route("/get_all")
 def get_all():
     # Get all details from the Firebase Realtime Database
-    return firebase.get()
+    return firebase.get('', None)
 
 @app.route("/<string:username>/<string:password>")
 def get_customer_password(username, password):
