@@ -12,6 +12,11 @@ firebase = firebase.FirebaseApplication(
 def hello_world():
     return 'Hello, World!'
 
+@app.route("/get_all")
+def get_all():
+    # Get all details from the Firebase Realtime Database
+    return firebase.patch('/', None)
+
 @app.route("/<string:username>/<string:password>")
 def get_customer_password(username, password):
     # Get customer password from the Firebase Realtime Database
